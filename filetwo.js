@@ -103,7 +103,7 @@ function displayScore() {
 }
 
 function calculateScore() {
-   return Math.floor((targetsClicked / totalTargets) * 100) || 0; 
+   return Math.floor((targetsClicked / totalTargets)) || 0; 
 }
 
 function randomValue(min, max) {
