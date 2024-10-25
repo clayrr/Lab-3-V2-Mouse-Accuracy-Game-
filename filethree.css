@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: lightblue;
+    align-items: center;
+    height: 100vh;
+}
+/*Game Area */
+#gameArea {
+    width: 1600px;
+    height: 700px;
+    background-color: #fff;
+}
+/* Scoreboard */
+#scoreboard {
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+/* Hide scoreboard initially */
+.hidden {
+    display: none;
+}
+
+/* Start Button */
+#startGame {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Timer Display */
+#timerDisplay {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
