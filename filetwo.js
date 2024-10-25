@@ -4,60 +4,62 @@ var targetsClicked = 0;
 var missedTargets = 0; 
 var targetInterval = null; 
 var gameTimer = null;  
-var remainingTime = gameTime;  // Track remaining time
+var remainingTime = gameTime; 
 
 // Start button
 var startButton = document.getElementById("startGame");
 startButton.addEventListener('click', startGame); 
 
+// Scoreboard elements
+var totalTargetsDisplay = document.getElementById("totalTargets");
+var targetsClickedDisplay = document.getElementById("targetsClicked");
+var missedTargetsDisplay = document.getElementById("missedTargets");
+var finalScoreDisplay = document.getElementById("finalScore");
+var scoreboard = document.getElementById("scoreboard");
+
 function startGame() {
     resetGame();
-    targetInterval = setInterval(spawnTarget, 1000);  // Spawn targets every second
-    gameTimer = setInterval(updateTimer, 1000);  // Update the timer every second
-    setTimeout(endGame, gameTime * 1000);  // End game after gameTime
+    targetInterval = setInterval(spawnTarget, 1000);  
+    gameTimer = setInterval(updateTimer, 1000);  
+    setTimeout(endGame, gameTime * 1000);  
 }
 
 function spawnTarget() {
     totalTargets++;
-
     var target = document.createElement("div");
     target.classList.add("target");
-    
-    //*Randomize target position
-    var maxX = gameArea.offsetWidth - 50;  // Adjust for target width
-    var maxY = gameArea.offsetHeight - 50;  // Adjust for target height
+
+    var maxX = gameArea.offsetWidth - 50;  
+    var maxY = gameArea.offsetHeight - 50;  
     var randomX = randomValue(0, maxX);
     var randomY = randomValue(0, maxY);
-    
+
     target.style.left = `${randomX}px`;
     target.style.top = `${randomY}px`;
-    target.style.width = "50px";  // Set width of target
-    target.style.height = "50px";  // Set height of target
-    target.style.backgroundColor = "red";  // Color of the target
-    target.style.transition = "transform 0.5s";  // Transition for scale effect
-    
-    // Target appears
+    target.style.width = "50px";  
+    target.style.height = "50px";  
+    target.style.backgroundColor = "red";  
+    target.style.position = "absolute"; // Ensure targets are positioned absolutely
+    target.style.transition = "transform 0.5s";  
+
     document.body.appendChild(target);
 
-    // Add time stuff for growing and shrinking target
-    target.style.transform = "scale(1.5)";  // Grow target
+    target.style.transform = "scale(1.5)";  
     setTimeout(() => {
-        target.style.transform = "scale(0.5)";  // Shrink target after 500ms
+        target.style.transform = "scale(0.5)";  
     }, 500); 
 
-    // When clicked, target disappears
     target.addEventListener('click', () => {
         targetsClicked++;
-        document.body.removeChild(target);  // Remove the target on click
+        document.body.removeChild(target);  
     });
 
-    // Remove the target if not clicked after a set time
     setTimeout(() => {
         if (document.body.contains(target)) {
             missedTargets++;
-            document.body.removeChild(target);  // Remove target if missed
+            document.body.removeChild(target);  
         }
-    }, 1500);  // Adjust time for how long the target stays visible
+    }, 1500);  
 }
 
 function resetGame() {
@@ -66,16 +68,16 @@ function resetGame() {
     missedTargets = 0; 
     clearTargets(); 
 
-    remainingTime = gameTime;  // Reset the remaining time
-    document.getElementById("timerDisplay").textContent = `Time left: ${remainingTime}s`;  // Reset timer display
+    remainingTime = gameTime;  
+    document.getElementById("timerDisplay").textContent = `Time left: ${remainingTime}s`; 
 }
 
 function updateTimer() {
-    remainingTime--;  // Decrease remaining time
-    document.getElementById("timerDisplay").textContent = `Time left: ${remainingTime}s`;  // Update timer display
+    remainingTime--; 
+    document.getElementById("timerDisplay").textContent = `Time left: ${remainingTime}s`; 
 
     if (remainingTime <= 0) {
-        clearInterval(gameTimer);  // Stop the timer when it reaches 0
+        clearInterval(gameTimer); 
     }
 }
 
@@ -84,26 +86,26 @@ function endGame() {
     displayScore(); 
     clearInterval(gameTimer);
     clearInterval(targetInterval); 
-    resetGame(); 
 }
 
 function clearTargets() {
-    gameArea.innerHTML = "";  // Clear all targets
+    var targets = document.querySelectorAll('.target');
+    targets.forEach(target => target.remove());
 }
 
 function displayScore() {
-    totalTargetsDisplay.textContent = `Total targets: ${totalTargets}`;
-    targetsClickedDisplay.textContent = `Targets clicked: ${targetsClicked}`;
-    missedTargetsDisplay.textContent = `Missed targets: ${missedTargets}`;
-    finalScoreDisplay.textContent = `Final score: ${calculateScore()}`;
-    scoreboard.classList.remove("hidden");  // Show scoreboard
+    
+   totalTargetsDisplay.textContent= `Total targets: ${totalTargets}`;
+   targetsClickedDisplay.textContent= `Targets clicked: ${targetsClicked}`;
+   missedTargetsDisplay.textContent= `Missed targets: ${missedTargets}`;
+   finalScoreDisplay.textContent= `Final score: ${calculateScore()}`;
+   scoreboard.classList.remove("hidden"); 
 }
 
 function calculateScore() {
-    return Math.floor((targetsClicked / totalTargets) * 100) || 0;  // Avoid NaN
+   return Math.floor((targetsClicked / totalTargets) * 100) || 0; 
 }
 
-// Random value function
 function randomValue(min, max) {
-    return Math.random() * (max - min) + min; 
+   return Math.random() * (max - min) + min; 
 }

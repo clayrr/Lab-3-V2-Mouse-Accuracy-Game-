@@ -19,10 +19,6 @@ body {
     background-color: #fff;
 }
 
-/* Hide scoreboard initially */
-.hidden {
-    display: none;
-}
 
 /* Start Button */
 #startGame {
