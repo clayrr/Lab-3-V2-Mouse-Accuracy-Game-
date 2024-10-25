@@ -1,3 +1,5 @@
+//maya
+
 var gameTime = 30;  
 var totalTargets = 0;
 var targetsClicked = 0;
@@ -103,7 +105,7 @@ function displayScore() {
 }
 
 function calculateScore() {
-   return Math.floor((targetsClicked / totalTargets)) || 0; 
+   return Math.floor((targetsClicked / totalTargets) * 100) || 0; 
 }
 
 function randomValue(min, max) {
